@@ -1,0 +1,48 @@
+#cd("$(pwd())\\dlgo")
+module RANDOM_V_RANDOM
+
+#include("C:\\Users\\sebas\\AppData\\Local\\JuliaPro-0.6.2.2\\dlgo\\gotypes.jl")
+using GOTYPES
+#include("C:\\Users\\sebas\\AppData\\Local\\JuliaPro-0.6.2.2\\dlgo\\goboard_slow.jl")
+using SLOW_GOBOARD
+#include("C:\\Users\\sebas\\AppData\\Local\\JuliaPro-0.6.2.2\\dlgo\\agent")
+using AGENT
+#include("C:\\Users\\sebas\\AppData\\Local\\JuliaPro-0.6.2.2\\dlgo\\utils.jl")
+using UTILS
+
+board_size=9;
+draw_time=1;
+turncounter=0;
+
+#m=Move(Point(1,1),true,false,false)
+
+game=start_new_game(board_size)
+bots=Dict(["black"=>RandomBot(true),"white"=>RandomBot(true)]);
+print_board(game.board);
+
+
+while(!is_over(game))
+    #workspace();
+    player=game.next_player;
+    bot_move=select_move(bots[player.color],game);
+    game=apply_move(game,player,bot_move);
+
+    print_board(game.board);
+    #print_board_graphical(game.board);
+    print_move(player,bot_move);
+
+    turncounter+=1;
+
+    sleep(draw_time);
+end
+
+Winner=get_winner(game);
+
+println("Winner    $(Winner[1])\n");
+println("Score:\n")
+println("Black     $(Winner[2])\n");
+println("White     $(Winner[3])\n");
+println("$turncounter turns played");
+
+
+end
